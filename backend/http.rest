@@ -1,0 +1,16 @@
+@baseUrl=http://localhost:3001
+@basePath=api
+
+### Test
+GET {{ baseUrl }}
+Content-Type: application/json
+
+### Get Projects
+POST {{ baseUrl }}/api/auth/register
+Content-Type: application/json
+
+# {
+#   "name": "Azim",
+#   "email": "azim.saibou@usmba.ac.ma",
+#   "password": "azim.saibou@usmba.ac.ma"
+# }
