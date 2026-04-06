@@ -34,7 +34,7 @@ export default function EditWorkspaceForm() {
 
   const formSchema = z.object({
     name: z.string().trim().min(1, {
-      message: "Workspace name is required",
+      message: "Le nom de l’espace de travail est requis",
     }),
     description: z.string().trim(),
   });
@@ -71,7 +71,7 @@ export default function EditWorkspaceForm() {
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
@@ -87,7 +87,7 @@ export default function EditWorkspaceForm() {
             className="text-[17px] tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1.5
            text-center sm:text-left"
           >
-            Edit Workspace
+            Modifier l’espace de travail
           </h1>
         </div>
         <Form {...form}>
@@ -99,7 +99,7 @@ export default function EditWorkspaceForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Workspace name
+                      Nom de l’espace de travail
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -121,9 +121,9 @@ export default function EditWorkspaceForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Workspace description
+                      Description de l’espace de travail
                       <span className="text-xs font-extralight ml-2">
-                        Optional
+                        Facultatif
                       </span>
                     </FormLabel>
                     <FormControl>
@@ -131,7 +131,7 @@ export default function EditWorkspaceForm() {
                         rows={6}
                         disabled={!canEditWorkspace}
                         className="disabled:opacity-90 disabled:pointer-events-none"
-                        placeholder="Our team organizes marketing projects and tasks here."
+                        placeholder="Notre équipe organise ici les projets et tâches marketing."
                         {...field}
                       />
                     </FormControl>
@@ -147,7 +147,7 @@ export default function EditWorkspaceForm() {
                 type="submit"
               >
                 {isPending && <Loader className="animate-spin" />}
-                Update Workspace
+                Mettre à jour l’espace de travail
               </Button>
             )}
           </form>

@@ -34,10 +34,8 @@ import { useAuthContext } from "@/context/auth-provider";
 
 const Asidebar = () => {
   const { isLoading, user } = useAuthContext();
-
   const { open } = useSidebar();
   const workspaceId = useWorkspaceId();
-
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -56,7 +54,8 @@ const Asidebar = () => {
             )}
           </div>
         </SidebarHeader>
-        <SidebarContent className=" !mt-0 dark:bg-background">
+
+        <SidebarContent className="!mt-0 dark:bg-background">
           <SidebarGroup className="!py-0">
             <SidebarGroupContent>
               <WorkspaceSwitcher />
@@ -67,6 +66,7 @@ const Asidebar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+
         <SidebarFooter className="dark:bg-background">
           <SidebarMenu>
             <SidebarMenuItem>
@@ -98,9 +98,10 @@ const Asidebar = () => {
                       <EllipsisIcon className="ml-auto size-4" />
                     </SidebarMenuButton>
                   </DropdownMenuTrigger>
+
                   <DropdownMenuContent
                     className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                    side={"bottom"}
+                    side="bottom"
                     align="start"
                     sideOffset={4}
                   >
@@ -108,7 +109,7 @@ const Asidebar = () => {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setIsOpen(true)}>
                       <LogOut />
-                      Log out
+                      Se déconnecter
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -116,6 +117,7 @@ const Asidebar = () => {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
+
         <SidebarRail />
       </Sidebar>
 

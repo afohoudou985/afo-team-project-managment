@@ -226,7 +226,7 @@ const DataTableFilterToolbar: FC<DataTableFilterToolbarProps> = ({
             })
           }
         >
-          Reset
+          Réinitialiser
           <X />
         </Button>
       )}

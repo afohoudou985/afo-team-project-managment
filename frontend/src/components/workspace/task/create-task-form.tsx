@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { CalendarIcon, Loader } from "lucide-react";
@@ -65,7 +66,7 @@ export default function CreateTaskForm(props: {
   const projects = data?.projects || [];
   const members = memberData?.members || [];
 
-  //Workspace Projects
+  // Projets de l'espace de travail
   const projectOptions = projects?.map((project) => {
     return {
       label: (
@@ -78,9 +79,9 @@ export default function CreateTaskForm(props: {
     };
   });
 
-  // Workspace Memebers
+  // Membres de l'espace de travail
   const membersOptions = members?.map((member) => {
-    const name = member.userId?.name || "Unknown";
+    const name = member.userId?.name || "Inconnu";
     const initials = getAvatarFallbackText(name);
     const avatarColor = getAvatarColor(name);
 
@@ -100,29 +101,29 @@ export default function CreateTaskForm(props: {
 
   const formSchema = z.object({
     title: z.string().trim().min(1, {
-      message: "Title is required",
+      message: "Le titre est requis",
     }),
     description: z.string().trim(),
     projectId: z.string().trim().min(1, {
-      message: "Project is required",
+      message: "Le projet est requis",
     }),
     status: z.enum(
       Object.values(TaskStatusEnum) as [keyof typeof TaskStatusEnum],
       {
-        required_error: "Status is required",
+        required_error: "Le statut est requis",
       }
     ),
     priority: z.enum(
       Object.values(TaskPriorityEnum) as [keyof typeof TaskPriorityEnum],
       {
-        required_error: "Priority is required",
+        required_error: "La priorité est requise",
       }
     ),
     assignedTo: z.string().trim().min(1, {
-      message: "AssignedTo is required",
+      message: "L'assigné est requis",
     }),
     dueDate: z.date({
-      required_error: "A date of birth is required.",
+      required_error: "La date d'échéance est requise.",
     }),
   });
 
@@ -136,7 +137,7 @@ export default function CreateTaskForm(props: {
   });
 
   const taskStatusList = Object.values(TaskStatusEnum);
-  const taskPriorityList = Object.values(TaskPriorityEnum); // ["LOW", "MEDIUM", "HIGH", "URGENT"]
+  const taskPriorityList = Object.values(TaskPriorityEnum);
 
   const statusOptions = transformOptions(taskStatusList);
   const priorityOptions = transformOptions(taskPriorityList);
@@ -163,15 +164,15 @@ export default function CreateTaskForm(props: {
         });
 
         toast({
-          title: "Success",
-          description: "Task created successfully",
+          title: "Succès",
+          description: "Tâche créée avec succès",
           variant: "success",
         });
         onClose();
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
@@ -187,14 +188,15 @@ export default function CreateTaskForm(props: {
             className="text-xl tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1
            text-center sm:text-left"
           >
-            Create Task
+            Créer une tâche
           </h1>
           <p className="text-muted-foreground text-sm leading-tight">
-            Organize and manage tasks, resources, and team collaboration
+            Organisez et gérez les tâches, les ressources et la collaboration d'équipe
           </p>
         </div>
         <Form {...form}>
           <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+            {/* Titre */}
             <div>
               <FormField
                 control={form.control}
@@ -202,11 +204,11 @@ export default function CreateTaskForm(props: {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Task title
+                      Titre de la tâche
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Website Redesign"
+                        placeholder="Refonte du site web"
                         className="!h-[48px]"
                         {...field}
                       />
@@ -217,7 +219,7 @@ export default function CreateTaskForm(props: {
               />
             </div>
 
-            {/* {Description} */}
+            {/* Description */}
             <div>
               <FormField
                 control={form.control}
@@ -225,9 +227,9 @@ export default function CreateTaskForm(props: {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Task description
+                      Description de la tâche
                       <span className="text-xs font-extralight ml-2">
-                        Optional
+                        Optionnel
                       </span>
                     </FormLabel>
                     <FormControl>
@@ -239,8 +241,7 @@ export default function CreateTaskForm(props: {
               />
             </div>
 
-            {/* {ProjectId} */}
-
+            {/* Projet */}
             {!projectId && (
               <div>
                 <FormField
@@ -248,14 +249,14 @@ export default function CreateTaskForm(props: {
                   name="projectId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project</FormLabel>
+                      <FormLabel>Projet</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a project" />
+                            <SelectValue placeholder="Sélectionner un projet" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -264,11 +265,7 @@ export default function CreateTaskForm(props: {
                               <Loader className="w-4 h-4 place-self-center flex animate-spin" />
                             </div>
                           )}
-                          <div
-                            className="w-full max-h-[200px]
-                           overflow-y-auto scrollbar
-                          "
-                          >
+                          <div className="w-full max-h-[200px] overflow-y-auto scrollbar">
                             {projectOptions?.map((option) => (
                               <SelectItem
                                 key={option.value}
@@ -288,30 +285,25 @@ export default function CreateTaskForm(props: {
               </div>
             )}
 
-            {/* {Members AssigneeTo} */}
-
+            {/* Assigné à */}
             <div>
               <FormField
                 control={form.control}
                 name="assignedTo"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Assigned To</FormLabel>
+                    <FormLabel>Assigné à</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a assignee" />
+                          <SelectValue placeholder="Sélectionner un assigné" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <div
-                          className="w-full max-h-[200px]
-                           overflow-y-auto scrollbar
-                          "
-                        >
+                        <div className="w-full max-h-[200px] overflow-y-auto scrollbar">
                           {membersOptions?.map((option) => (
                             <SelectItem
                               className="cursor-pointer"
@@ -330,14 +322,14 @@ export default function CreateTaskForm(props: {
               />
             </div>
 
-            {/* {Due Date} */}
+            {/* Date d'échéance */}
             <div className="!mt-2">
               <FormField
                 control={form.control}
                 name="dueDate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Due Date</FormLabel>
+                    <FormLabel>Date d'échéance</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -349,9 +341,9 @@ export default function CreateTaskForm(props: {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(field.value, "PPP", { locale: fr })
                             ) : (
-                              <span>Pick a date</span>
+                              <span>Choisir une date</span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -365,12 +357,13 @@ export default function CreateTaskForm(props: {
                           disabled={
                             (date) =>
                               date <
-                                new Date(new Date().setHours(0, 0, 0, 0)) || // Disable past dates
-                              date > new Date("2100-12-31") //Prevent selection beyond a far future date
+                                new Date(new Date().setHours(0, 0, 0, 0)) ||
+                              date > new Date("2100-12-31")
                           }
                           initialFocus
                           defaultMonth={new Date()}
                           fromMonth={new Date()}
+                          locale={fr}
                         />
                       </PopoverContent>
                     </Popover>
@@ -380,15 +373,14 @@ export default function CreateTaskForm(props: {
               />
             </div>
 
-            {/* {Status} */}
-
+            {/* Statut */}
             <div>
               <FormField
                 control={form.control}
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
+                    <FormLabel>Statut</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -397,7 +389,7 @@ export default function CreateTaskForm(props: {
                         <SelectTrigger>
                           <SelectValue
                             className="!text-muted-foreground !capitalize"
-                            placeholder="Select a status"
+                            placeholder="Sélectionner un statut"
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -419,21 +411,21 @@ export default function CreateTaskForm(props: {
               />
             </div>
 
-            {/* {Priority} */}
+            {/* Priorité */}
             <div>
               <FormField
                 control={form.control}
                 name="priority"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Priority</FormLabel>
+                    <FormLabel>Priorité</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a priority" />
+                          <SelectValue placeholder="Sélectionner une priorité" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -455,12 +447,12 @@ export default function CreateTaskForm(props: {
             </div>
 
             <Button
-              className="flex place-self-end  h-[40px] text-white font-semibold"
+              className="flex place-self-end h-[40px] text-white font-semibold"
               type="submit"
               disabled={isPending}
             >
               {isPending && <Loader className="animate-spin" />}
-              Create
+              Créer
             </Button>
           </form>
         </Form>

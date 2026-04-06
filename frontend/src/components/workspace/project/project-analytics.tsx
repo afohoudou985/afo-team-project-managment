@@ -7,7 +7,6 @@ import { getProjectAnalyticsQueryFn } from "@/lib/api";
 const ProjectAnalytics = () => {
   const param = useParams();
   const projectId = param.projectId as string;
-
   const workspaceId = useWorkspaceId();
 
   const { data, isPending } = useQuery({
@@ -23,17 +22,17 @@ const ProjectAnalytics = () => {
     <div className="grid gap-4 md:gap-5 lg:grid-cols-2 xl:grid-cols-3">
       <AnalyticsCard
         isLoading={isPending}
-        title="Total Task"
+        title="Total des tâches"
         value={analytics?.totalTasks || 0}
       />
       <AnalyticsCard
         isLoading={isPending}
-        title="Overdue Task"
+        title="Tâches en retard"
         value={analytics?.overdueTasks || 0}
       />
       <AnalyticsCard
         isLoading={isPending}
-        title="Completed Task"
+        title="Tâches terminées"
         value={analytics?.completedTasks || 0}
       />
     </div>

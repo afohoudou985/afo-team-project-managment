@@ -7,6 +7,7 @@ const GoogleOauthButton = (props: { label: string }) => {
   const handleClick = () => {
     window.location.href = `${baseURL}/auth/google`;
   };
+
   return (
     <Button
       onClick={handleClick}
@@ -20,7 +21,7 @@ const GoogleOauthButton = (props: { label: string }) => {
           fill="currentColor"
         />
       </svg>
-      {label} with Google
+      {label} avec Google
     </Button>
   );
 };

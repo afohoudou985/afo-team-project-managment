@@ -21,11 +21,11 @@ const GoogleOAuthFailure = () => {
       <Card>
         <CardContent>
           <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h1>Authentication Failed</h1>
-            <p>We couldn't sign you in with Google. Please try again.</p>
+            <h1>Échec de l’authentification</h1>
+            <p>Nous n’avons pas pu vous connecter avec Google. Veuillez réessayer.</p>
 
             <Button onClick={() => navigate("/")} style={{ marginTop: "20px" }}>
-              Back to Login
+              Retour à la connexion
             </Button>
           </div>
         </CardContent>

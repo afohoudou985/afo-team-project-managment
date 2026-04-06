@@ -44,7 +44,7 @@ const InviteUser = () => {
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
@@ -66,11 +66,11 @@ const InviteUser = () => {
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-xl">
-                Hey there! You're invited to join a TeamSync Workspace!
+                Salut! Vous êtes invité à rejoindre un espace de travail TeamSync!
               </CardTitle>
               <CardDescription>
-                Looks like you need to be logged into your TeamSync account to
-                join this Workspace.
+                Il semble que vous deviez être connecté à votre compte TeamSync
+                pour rejoindre cet espace de travail.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -89,7 +89,7 @@ const InviteUser = () => {
                           {isLoading && (
                             <Loader className="!w-6 !h-6 animate-spin" />
                           )}
-                          Join the Workspace
+                          Rejoindre l’espace de travail
                         </Button>
                       </form>
                     </div>
@@ -99,14 +99,14 @@ const InviteUser = () => {
                         className="flex-1 w-full text-base"
                         to={`/sign-up?returnUrl=${returnUrl}`}
                       >
-                        <Button className="w-full">Signup</Button>
+                        <Button className="w-full">Inscription</Button>
                       </Link>
                       <Link
                         className="flex-1 w-full text-base"
                         to={`/?returnUrl=${returnUrl}`}
                       >
                         <Button variant="secondary" className="w-full border">
-                          Login
+                          Connexion
                         </Button>
                       </Link>
                     </div>

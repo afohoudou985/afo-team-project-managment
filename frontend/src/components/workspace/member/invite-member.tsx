@@ -25,36 +25,34 @@ const InviteMember = () => {
       navigator.clipboard.writeText(inviteUrl).then(() => {
         setCopied(true);
         toast({
-          title: "Copied",
-          description: "Invite url copied to clipboard",
+          title: "Copié",
+          description: "Le lien d'invitation a été copié dans le presse-papiers",
           variant: "success",
         });
         setTimeout(() => setCopied(false), 2000);
       });
     }
   };
+
   return (
-    <div className="flex flex-col pt-0.5 px-0 ">
-      <h5 className="text-lg  leading-[30px] font-semibold mb-1">
-        Invite members to join you
+    <div className="flex flex-col pt-0.5 px-0">
+      <h5 className="text-lg leading-[30px] font-semibold mb-1">
+        Inviter des membres à rejoindre l'espace de travail
       </h5>
       <p className="text-sm text-muted-foreground leading-tight">
-        Anyone with an invite link can join this free Workspace. You can also
-        disable and create a new invite link for this Workspace at any time.
+        Toute personne disposant du lien d'invitation peut rejoindre cet espace de travail gratuit. 
+        Vous pouvez désactiver et générer un nouveau lien d'invitation à tout moment.
       </p>
 
       <PermissionsGuard showMessage requiredPermission={Permissions.ADD_MEMBER}>
         {workspaceLoading ? (
           <Loader
-            className="w-8 h-8 
-        animate-spin
-        place-self-center
-        flex"
+            className="w-8 h-8 animate-spin place-self-center flex"
           />
         ) : (
           <div className="flex py-3 gap-2">
             <Label htmlFor="link" className="sr-only">
-              Link
+              Lien d'invitation
             </Label>
             <Input
               id="link"

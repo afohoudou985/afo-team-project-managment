@@ -6,7 +6,7 @@ import { Loader } from "lucide-react";
 import { getAvatarColor, getAvatarFallbackText } from "@/lib/helper";
 import { format } from "date-fns";
 
-const RecentProjects = () => {
+const ProjetsRecents = () => {
   const workspaceId = useWorkspaceId();
 
   const { data, isPending } = useGetProjectsInWorkspaceQuery({
@@ -27,13 +27,14 @@ const RecentProjects = () => {
          flex"
         />
       ) : null}
+
       {projects?.length === 0 && (
         <div
           className="font-semibold
          text-sm text-muted-foreground
           text-center py-5"
         >
-          No Project created yet
+          Aucun projet créé pour le moment
         </div>
       )}
 
@@ -57,18 +58,24 @@ const RecentProjects = () => {
                   <div className="text-xl !leading-[1.4rem]">
                     {project.emoji}
                   </div>
+
                   <div className="grid gap-1">
                     <p className="text-sm font-medium leading-none">
                       {project.name}
                     </p>
+
                     <p className="text-sm text-muted-foreground">
                       {project.createdAt
                         ? format(project.createdAt, "PPP")
                         : null}
                     </p>
                   </div>
+
                   <div className="ml-auto flex items-center gap-4">
-                    <span className="text-sm text-gray-500">Created by</span>
+                    <span className="text-sm text-gray-500">
+                      Créé par
+                    </span>
+
                     <Avatar className="hidden h-9 w-9 sm:flex">
                       <AvatarImage
                         src={project.createdBy.profilePicture || ""}
@@ -89,4 +96,4 @@ const RecentProjects = () => {
   );
 };
 
-export default RecentProjects;
+export default ProjetsRecents;

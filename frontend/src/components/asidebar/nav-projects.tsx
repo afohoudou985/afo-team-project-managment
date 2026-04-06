@@ -41,10 +41,8 @@ export function NavProjects() {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
-
   const queryClient = useQueryClient();
   const workspaceId = useWorkspaceId();
-
   const { isMobile } = useSidebar();
   const { onOpen } = useCreateProjectDialog();
   const { context, open, onOpenDialog, onCloseDialog } = useConfirmDialog();
@@ -85,17 +83,16 @@ export function NavProjects() {
             queryKey: ["allprojects", workspaceId],
           });
           toast({
-            title: "Success",
+            title: "Succès",
             description: data.message,
             variant: "success",
           });
-
           navigate(`/workspace/${workspaceId}`);
           setTimeout(() => onCloseDialog(), 100);
         },
         onError: (error) => {
           toast({
-            title: "Error",
+            title: "Erreur",
             description: error.message,
             variant: "destructive",
           });
@@ -103,12 +100,12 @@ export function NavProjects() {
       }
     );
   };
+
   return (
     <>
       <SidebarGroup className="group-data-[collapsible=icon]:hidden">
         <SidebarGroupLabel className="w-full justify-between pr-0">
-          <span>Projects</span>
-
+          <span>Projets</span>
           <PermissionsGuard requiredPermission={Permissions.CREATE_PROJECT}>
             <button
               onClick={onOpen}
@@ -119,21 +116,21 @@ export function NavProjects() {
             </button>
           </PermissionsGuard>
         </SidebarGroupLabel>
+
         <SidebarMenu className="h-[320px] scrollbar overflow-y-auto pb-2">
-          {isError ? <div>Error occured</div> : null}
+          {isError ? <div>Une erreur est survenue</div> : null}
+
           {isPending ? (
             <Loader
-              className=" w-5 h-5
-             animate-spin
-              place-self-center"
+              className="w-5 h-5 animate-spin place-self-center"
             />
           ) : null}
 
           {!isPending && projects?.length === 0 ? (
             <div className="pl-3">
               <p className="text-xs text-muted-foreground">
-                There is no projects in this Workspace yet. Projects you create
-                will show up here.
+                Il n'y a encore aucun projet dans cet espace de travail. 
+                Les projets que vous créez apparaîtront ici.
               </p>
               <PermissionsGuard requiredPermission={Permissions.CREATE_PROJECT}>
                 <Button
@@ -142,7 +139,7 @@ export function NavProjects() {
                   className="h-0 p-0 text-[13px] underline font-semibold mt-4"
                   onClick={onOpen}
                 >
-                  Create a project
+                  Créer un projet
                   <ArrowRight />
                 </Button>
               </PermissionsGuard>
@@ -150,7 +147,6 @@ export function NavProjects() {
           ) : (
             projects.map((item) => {
               const projectUrl = `/workspace/${workspaceId}/project/${item._id}`;
-
               return (
                 <SidebarMenuItem key={item._id}>
                   <SidebarMenuButton asChild isActive={projectUrl === pathname}>
@@ -159,11 +155,12 @@ export function NavProjects() {
                       <span>{item.name}</span>
                     </Link>
                   </SidebarMenuButton>
+
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <SidebarMenuAction showOnHover>
                         <MoreHorizontal />
-                        <span className="sr-only">More</span>
+                        <span className="sr-only">Plus</span>
                       </SidebarMenuAction>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -172,10 +169,10 @@ export function NavProjects() {
                       align={isMobile ? "end" : "start"}
                     >
                       <DropdownMenuItem
-                        onClick={() => navigate(`${projectUrl}`)}
+                        onClick={() => navigate(projectUrl)}
                       >
                         <Folder className="text-muted-foreground" />
-                        <span>View Project</span>
+                        <span>Voir le projet</span>
                       </DropdownMenuItem>
 
                       <PermissionsGuard
@@ -187,7 +184,7 @@ export function NavProjects() {
                           onClick={() => onOpenDialog(item)}
                         >
                           <Trash2 className="text-muted-foreground" />
-                          <span>Delete Project</span>
+                          <span>Supprimer le projet</span>
                         </DropdownMenuItem>
                       </PermissionsGuard>
                     </DropdownMenuContent>
@@ -205,7 +202,7 @@ export function NavProjects() {
                 onClick={fetchNextPage}
               >
                 <MoreHorizontal className="text-sidebar-foreground/70" />
-                <span>{isFetching ? "Loading..." : "More"}</span>
+                <span>{isFetching ? "Chargement..." : "Plus"}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           )}
@@ -217,12 +214,12 @@ export function NavProjects() {
         isLoading={isLoading}
         onClose={onCloseDialog}
         onConfirm={handleConfirm}
-        title="Delete Project"
-        description={`Are you sure you want to delete ${
-          context?.name || "this item"
-        }? This action cannot be undone.`}
-        confirmText="Delete"
-        cancelText="Cancel"
+        title="Supprimer le projet"
+        description={`Êtes-vous sûr de vouloir supprimer ${
+          context?.name || "cet élément"
+        } ? Cette action est irréversible.`}
+        confirmText="Supprimer"
+        cancelText="Annuler"
       />
     </>
   );
