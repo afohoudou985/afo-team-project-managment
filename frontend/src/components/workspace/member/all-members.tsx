@@ -1,8 +1,6 @@
 import { ChevronDown, Loader } from "lucide-react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-
 import {
   Command,
   CommandEmpty,
@@ -24,9 +22,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { changeWorkspaceMemberRoleMutationFn } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
 import { Permissions } from "@/constant";
+
 const AllMembers = () => {
   const { user, hasPermission } = useAuthContext();
-
   const canChangeMemberRole = hasPermission(Permissions.CHANGE_MEMBER_ROLE);
 
   const queryClient = useQueryClient();
@@ -42,6 +40,7 @@ const AllMembers = () => {
 
   const handleSelect = (roleId: string, memberId: string) => {
     if (!roleId || !memberId) return;
+
     const payload = {
       workspaceId,
       data: {
@@ -49,20 +48,21 @@ const AllMembers = () => {
         memberId,
       },
     };
+
     mutate(payload, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["members", workspaceId],
         });
         toast({
-          title: "Success",
-          description: "Member's role changed successfully",
+          title: "Succès",
+          description: "Le rôle du membre a été modifié avec succès",
           variant: "success",
         });
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
@@ -80,18 +80,23 @@ const AllMembers = () => {
         const name = member.userId?.name;
         const initials = getAvatarFallbackText(name);
         const avatarColor = getAvatarColor(name);
+
         return (
-          <div className="flex items-center justify-between space-x-4">
+          <div
+            key={member.userId._id}
+            className="flex items-center justify-between space-x-4"
+          >
             <div className="flex items-center space-x-4">
               <Avatar className="h-8 w-8">
                 <AvatarImage
                   src={member.userId?.profilePicture || ""}
-                  alt="Image"
+                  alt="Photo de profil"
                 />
                 <AvatarFallback className={avatarColor}>
                   {initials}
                 </AvatarFallback>
               </Avatar>
+
               <div>
                 <p className="text-sm font-medium leading-none">{name}</p>
                 <p className="text-sm text-muted-foreground">
@@ -99,6 +104,7 @@ const AllMembers = () => {
                 </p>
               </div>
             </div>
+
             <div className="flex items-center gap-3">
               <Popover>
                 <PopoverTrigger asChild>
@@ -113,16 +119,18 @@ const AllMembers = () => {
                     }
                   >
                     {member.role.name?.toLowerCase()}{" "}
-                    {canChangeMemberRole && member.userId._id !== user?._id && (
-                      <ChevronDown className="text-muted-foreground" />
-                    )}
+                    {canChangeMemberRole &&
+                      member.userId._id !== user?._id && (
+                        <ChevronDown className="text-muted-foreground" />
+                      )}
                   </Button>
                 </PopoverTrigger>
+
                 {canChangeMemberRole && (
                   <PopoverContent className="p-0" align="end">
                     <Command>
                       <CommandInput
-                        placeholder="Select new role..."
+                        placeholder="Sélectionner un nouveau rôle..."
                         disabled={isLoading}
                         className="disabled:pointer-events-none"
                       />
@@ -131,7 +139,7 @@ const AllMembers = () => {
                           <Loader className="w-8 h-8 animate-spin place-self-center flex my-4" />
                         ) : (
                           <>
-                            <CommandEmpty>No roles found.</CommandEmpty>
+                            <CommandEmpty>Aucun rôle trouvé.</CommandEmpty>
                             <CommandGroup>
                               {roles?.map(
                                 (role) =>
@@ -139,23 +147,19 @@ const AllMembers = () => {
                                     <CommandItem
                                       key={role._id}
                                       disabled={isLoading}
-                                      className="disabled:pointer-events-none gap-1 mb-1  flex flex-col items-start px-4 py-2 cursor-pointer"
-                                      onSelect={() => {
-                                        handleSelect(
-                                          role._id,
-                                          member.userId._id
-                                        );
-                                      }}
+                                      className="disabled:pointer-events-none gap-1 mb-1 flex flex-col items-start px-4 py-2 cursor-pointer"
+                                      onSelect={() =>
+                                        handleSelect(role._id, member.userId._id)
+                                      }
                                     >
                                       <p className="capitalize">
                                         {role.name?.toLowerCase()}
                                       </p>
                                       <p className="text-sm text-muted-foreground">
                                         {role.name === "ADMIN" &&
-                                          `Can view, create, edit tasks, project and manage settings .`}
-
+                                          `Peut voir, créer, modifier les tâches, les projets et gérer les paramètres.`}
                                         {role.name === "MEMBER" &&
-                                          `Can view,edit only task created by.`}
+                                          `Peut uniquement voir et modifier les tâches qu'il a créées.`}
                                       </p>
                                     </CommandItem>
                                   )

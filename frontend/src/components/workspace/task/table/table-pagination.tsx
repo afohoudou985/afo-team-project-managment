@@ -19,7 +19,7 @@ interface DataTablePaginationProps<TData> {
   table: Table<TData>;
   pageNumber: number;
   pageSize: number;
-  totalCount: number; // Total rows from the API
+  totalCount: number;
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (size: number) => void;
 }
@@ -33,30 +33,31 @@ export function DataTablePagination<TData>({
   onPageSizeChange,
 }: DataTablePaginationProps<TData>) {
   const pageIndex = table.getState().pagination.pageIndex;
-  //const pageSize = table.getState().pagination.pageSize;
   const pageCount = Math.ceil(totalCount / pageSize);
 
   const handlePageSizeChange = (size: number) => {
     table.setPageSize(size);
-    onPageSizeChange?.(size); // Trigger external handler if provided
+    onPageSizeChange?.(size);
   };
 
   const handlePageChange = (index: number) => {
-    table.setPageIndex(index); // Update table state
-    onPageChange?.(index + 1); // Trigger external handler if provided
+    table.setPageIndex(index);
+    onPageChange?.(index + 1);
   };
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 px-2">
-      {/* Showing X to Y of Z Rows */}
+      {/* Affichage X à Y sur Z lignes */}
       <div className="flex-1 text-sm text-muted-foreground">
-        Showing {(pageNumber - 1) * pageSize + 1}-
-        {Math.min(pageNumber * pageSize, totalCount)} of {totalCount}
+        Affichage {(pageNumber - 1) * pageSize + 1}-
+        {Math.min(pageNumber * pageSize, totalCount)} sur {totalCount}
       </div>
+
       <div className="flex flex-col lg:flex-row lg:items-center space-y-2 lg:space-x-8 lg:space-y-0">
-        {/* Rows Per Page Selector */}
+        {/* Sélecteur de lignes par page */}
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+          <p className="text-sm font-medium">Lignes par page</p>
+
           <Select
             value={`${pageSize}`}
             onValueChange={(value) => handlePageSizeChange(Number(value))}
@@ -64,6 +65,7 @@ export function DataTablePagination<TData>({
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue placeholder={`${pageSize}`} />
             </SelectTrigger>
+
             <SelectContent side="top">
               {[10, 20, 30, 40, 50].map((size) => (
                 <SelectItem key={size} value={`${size}`}>
@@ -74,13 +76,13 @@ export function DataTablePagination<TData>({
           </Select>
         </div>
 
-        {/* Page Info */}
+        {/* Informations de pagination */}
         <div className="flex items-center">
           <div className="flex lg:w-[100px] items-center justify-center text-sm font-medium">
-            Page {pageIndex + 1} of {pageCount}
+            Page {pageIndex + 1} sur {pageCount}
           </div>
 
-          {/* Pagination Controls */}
+          {/* Contrôles de pagination */}
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
@@ -88,35 +90,36 @@ export function DataTablePagination<TData>({
               onClick={() => handlePageChange(0)}
               disabled={pageIndex === 0}
             >
-              <span className="sr-only">Go to first page</span>
+              <span className="sr-only">Aller à la première page</span>
               <ChevronsLeft />
             </Button>
+
             <Button
               variant="outline"
-              className=""
               onClick={() => handlePageChange(pageIndex - 1)}
               disabled={pageIndex === 0}
             >
-              <span className="sr-only">Go to previous page</span>
-              <ChevronLeft /> Previous
+              <span className="sr-only">Aller à la page précédente</span>
+              <ChevronLeft /> Précédent
             </Button>
+
             <Button
               variant="outline"
-              className=""
               onClick={() => handlePageChange(pageIndex + 1)}
               disabled={pageIndex >= pageCount - 1}
             >
-              <span className="sr-only">Go to next page</span>
-              Next
+              <span className="sr-only">Aller à la page suivante</span>
+              Suivant
               <ChevronRight />
             </Button>
+
             <Button
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
               onClick={() => handlePageChange(pageCount - 1)}
               disabled={pageIndex >= pageCount - 1}
             >
-              <span className="sr-only">Go to last page</span>
+              <span className="sr-only">Aller à la dernière page</span>
               <ChevronsRight />
             </Button>
           </div>

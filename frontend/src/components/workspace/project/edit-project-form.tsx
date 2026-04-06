@@ -35,12 +35,11 @@ export default function EditProjectForm(props: {
   const queryClient = useQueryClient();
 
   const [emoji, setEmoji] = useState("📊");
-
   const projectId = project?._id as string;
 
   const formSchema = z.object({
     name: z.string().trim().min(1, {
-      message: "Project title is required",
+      message: "Le titre du projet est requis",
     }),
     description: z.string().trim(),
   });
@@ -71,32 +70,31 @@ export default function EditProjectForm(props: {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (isPending) return;
+
     const payload = {
       projectId,
       workspaceId,
       data: { emoji, ...values },
     };
+
     mutate(payload, {
       onSuccess: (data) => {
         queryClient.invalidateQueries({
           queryKey: ["singleProject", projectId],
         });
-
         queryClient.invalidateQueries({
           queryKey: ["allprojects", workspaceId],
         });
-
         toast({
-          title: "Success",
+          title: "Succès",
           description: data.message,
           variant: "success",
         });
-
         setTimeout(() => onClose(), 100);
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
@@ -110,34 +108,38 @@ export default function EditProjectForm(props: {
         <div className="mb-5 pb-2 border-b">
           <h1
             className="text-xl tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1
-           text-center sm:text-left"
+                       text-center sm:text-left"
           >
-            Edit Project
+            Modifier le projet
           </h1>
           <p className="text-muted-foreground text-sm leading-tight">
-            Update the project details to refine task management
+            Mettez à jour les détails du projet pour améliorer la gestion des tâches
           </p>
         </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
+            {/* Sélection de l'emoji */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700">
-                Select Emoji
+                Choisir un emoji
               </label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="font-normal size-[60px] !p-2 !shadow-none mt-2 items-center rounded-full "
+                    className="font-normal size-[60px] !p-2 !shadow-none mt-2 items-center rounded-full"
                   >
                     <span className="text-4xl">{emoji}</span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent align="start" className=" !p-0">
+                <PopoverContent align="start" className="!p-0">
                   <EmojiPickerComponent onSelectEmoji={handleEmojiSelection} />
                 </PopoverContent>
               </Popover>
             </div>
+
+            {/* Titre du projet */}
             <div className="mb-4">
               <FormField
                 control={form.control}
@@ -145,32 +147,12 @@ export default function EditProjectForm(props: {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Project title
+                      Titre du projet
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="" className="!h-[48px]" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="mb-4">
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Project description
-                      <span className="text-xs font-extralight ml-2">
-                        Optional
-                      </span>
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        rows={4}
-                        placeholder="Projects description"
+                      <Input
+                        placeholder="Refonte du site web"
+                        className="!h-[48px]"
                         {...field}
                       />
                     </FormControl>
@@ -180,13 +162,40 @@ export default function EditProjectForm(props: {
               />
             </div>
 
+            {/* Description du projet */}
+            <div className="mb-4">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="dark:text-[#f1f7feb5] text-sm">
+                      Description du projet
+                      <span className="text-xs font-extralight ml-2">
+                        (Optionnel)
+                      </span>
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows={4}
+                        placeholder="Décrivez le projet ici..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Bouton de mise à jour */}
             <Button
               disabled={isPending}
-              className="flex place-self-end  h-[40px] text-white font-semibold"
+              className="flex place-self-end h-[40px] text-white font-semibold"
               type="submit"
             >
               {isPending && <Loader className="animate-spin" />}
-              Update
+              Mettre à jour
             </Button>
           </form>
         </Form>

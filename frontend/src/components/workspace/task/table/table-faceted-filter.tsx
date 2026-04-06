@@ -30,8 +30,8 @@ interface DataTableFacetedFilterProps {
   }[];
   disabled?: boolean;
   multiSelect?: boolean;
-  selectedValues: string[]; // New prop
-  onFilterChange: (values: string[]) => void; // New callback prop
+  selectedValues: string[];
+  onFilterChange: (values: string[]) => void;
 }
 
 export function DataTableFacetedFilter({
@@ -61,15 +61,18 @@ export function DataTableFacetedFilter({
         >
           <PlusCircle />
           {title}
+
           {selectedValueSet.size > 0 && (
             <>
               <Separator orientation="vertical" className="mx-0 h-4" />
+
               <Badge
                 variant="secondary"
                 className="rounded-sm px-1 font-normal lg:hidden"
               >
                 {selectedValueSet.size}
               </Badge>
+
               <div className="hidden space-x-1 lg:flex">
                 {selectedValueSet.size > 1 ? (
                   <Badge
@@ -96,14 +99,18 @@ export function DataTableFacetedFilter({
           )}
         </Button>
       </PopoverTrigger>
+
       <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
-          <CommandInput placeholder={`Filter ${title}`} />
+          <CommandInput placeholder={`Filtrer ${title}`} />
+
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>Aucun résultat trouvé.</CommandEmpty>
+
             <CommandGroup>
               {options.map((option) => {
                 const isSelected = selectedValueSet.has(option.value);
+
                 return (
                   <CommandItem
                     className={`cursor-pointer`}
@@ -111,11 +118,12 @@ export function DataTableFacetedFilter({
                     onSelect={() => {
                       if (multiSelect) {
                         const updatedValues = isSelected
-                          ? selectedValues.filter((val) => val !== option.value) // Remove value
-                          : [...selectedValues, option.value]; // Add value
+                          ? selectedValues.filter((val) => val !== option.value)
+                          : [...selectedValues, option.value];
+
                         onFilterChange(updatedValues);
                       } else {
-                        onFilterChange(isSelected ? [] : [option.value]); // Single select
+                        onFilterChange(isSelected ? [] : [option.value]);
                         onClose();
                       }
                     }}
@@ -132,23 +140,27 @@ export function DataTableFacetedFilter({
                         <Check />
                       </div>
                     )}
+
                     {option.icon && (
                       <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                     )}
+
                     <span>{option.label}</span>
                   </CommandItem>
                 );
               })}
             </CommandGroup>
+
             {selectedValueSet.size > 0 && (
               <>
                 <CommandSeparator />
+
                 <CommandGroup className="sticky bottom-0 align-bottom bg-white">
                   <CommandItem
-                    onSelect={() => onFilterChange([])} // Clear all filters
+                    onSelect={() => onFilterChange([])}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    Effacer les filtres
                   </CommandItem>
                 </CommandGroup>
               </>

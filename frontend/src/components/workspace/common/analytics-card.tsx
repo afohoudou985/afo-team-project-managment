@@ -9,22 +9,27 @@ const AnalyticsCard = (props: {
   const { title, value, isLoading } = props;
 
   const getArrowIcon = () => {
-    if (title === "Overdue Task") {
+    // Tâches en retard
+    if (title === "Tâches en retard") {
       return value > 0 ? (
         <ArrowBigDown strokeWidth={2.5} className="h-4 w-4 text-red-500" />
       ) : (
         <ArrowBigUp strokeWidth={2.5} className="h-4 w-4 text-green-500" />
       );
     }
-    if (title === "Completed Task" || title === "Total Task") {
+
+    // Tâches terminées ou Total des tâches
+    if (title === "Tâches terminées" || title === "Total des tâches") {
       return value > 0 ? (
         <ArrowBigUp strokeWidth={2.5} className="h-4 w-4 text-green-500" />
       ) : (
         <ArrowBigDown strokeWidth={2.5} className="h-4 w-4 text-red-500" />
       );
     }
+
     return null;
   };
+
   return (
     <Card className="shadow-none w-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -34,12 +39,17 @@ const AnalyticsCard = (props: {
         </div>
         <Activity
           strokeWidth={2.5}
-          className="h-4 w-4  text-muted-foreground"
+          className="h-4 w-4 text-muted-foreground"
         />
       </CardHeader>
+
       <CardContent className="w-full">
         <div className="text-3xl font-bold">
-          {isLoading ? <Loader className="w-6 h-6 animate-spin" /> : value}
+          {isLoading ? (
+            <Loader className="w-6 h-6 animate-spin" />
+          ) : (
+            value
+          )}
         </div>
       </CardContent>
     </Card>

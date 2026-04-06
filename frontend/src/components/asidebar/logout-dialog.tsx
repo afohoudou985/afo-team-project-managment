@@ -20,7 +20,6 @@ const LogoutDialog = (props: {
 }) => {
   const { isOpen, setIsOpen } = props;
   const navigate = useNavigate();
-
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -34,14 +33,14 @@ const LogoutDialog = (props: {
     },
     onError: (error) => {
       toast({
-        title: "Error",
+        title: "Erreur",
         description: error.message,
         variant: "destructive",
       });
     },
   });
 
-  // Handle logout action
+  // Gérer l'action de déconnexion
   const handleLogout = useCallback(() => {
     if (isPending) return;
     mutate();
@@ -52,19 +51,28 @@ const LogoutDialog = (props: {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you sure you want to log out?</DialogTitle>
+            <DialogTitle>Êtes-vous sûr de vouloir vous déconnecter ?</DialogTitle>
             <DialogDescription>
-              This will end your current session and you will need to log in
-              again to access your account.
+              Cela mettra fin à votre session actuelle et vous devrez vous reconnecter
+              pour accéder à nouveau à votre compte.
             </DialogDescription>
           </DialogHeader>
+
           <DialogFooter>
-            <Button disabled={isPending} type="button" onClick={handleLogout}>
+            <Button
+              disabled={isPending}
+              type="button"
+              onClick={handleLogout}
+            >
               {isPending && <Loader className="animate-spin" />}
-              Sign out
+              Se déconnecter
             </Button>
-            <Button type="button" onClick={() => setIsOpen(false)}>
-              Cancel
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+            >
+              Annuler
             </Button>
           </DialogFooter>
         </DialogContent>

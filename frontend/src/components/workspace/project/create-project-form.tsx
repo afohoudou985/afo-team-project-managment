@@ -43,7 +43,7 @@ export default function CreateProjectForm({
 
   const formSchema = z.object({
     name: z.string().trim().min(1, {
-      message: "Project title is required",
+      message: "Le titre du projet est requis",
     }),
     description: z.string().trim(),
   });
@@ -62,6 +62,7 @@ export default function CreateProjectForm({
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (isPending) return;
+
     const payload = {
       workspaceId,
       data: {
@@ -69,25 +70,24 @@ export default function CreateProjectForm({
         ...values,
       },
     };
+
     mutate(payload, {
       onSuccess: (data) => {
         const project = data.project;
         queryClient.invalidateQueries({
           queryKey: ["allprojects", workspaceId],
         });
-
         toast({
-          title: "Success",
-          description: "Project created successfully",
+          title: "Succès",
+          description: "Le projet a été créé avec succès",
           variant: "success",
         });
-
         navigate(`/workspace/${workspaceId}/project/${project._id}`);
         setTimeout(() => onClose(), 500);
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
@@ -101,34 +101,38 @@ export default function CreateProjectForm({
         <div className="mb-5 pb-2 border-b">
           <h1
             className="text-xl tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1
-           text-center sm:text-left"
+                       text-center sm:text-left"
           >
-            Create Project
+            Créer un projet
           </h1>
           <p className="text-muted-foreground text-sm leading-tight">
-            Organize and manage tasks, resources, and team collaboration
+            Organisez et gérez les tâches, les ressources et la collaboration d'équipe
           </p>
         </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
+            {/* Sélection de l'emoji */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700">
-                Select Emoji
+                Choisir un emoji
               </label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="font-normal size-[60px] !p-2 !shadow-none mt-2 items-center rounded-full "
+                    className="font-normal size-[60px] !p-2 !shadow-none mt-2 items-center rounded-full"
                   >
                     <span className="text-4xl">{emoji}</span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent align="start" className=" !p-0">
+                <PopoverContent align="start" className="!p-0">
                   <EmojiPickerComponent onSelectEmoji={handleEmojiSelection} />
                 </PopoverContent>
               </Popover>
             </div>
+
+            {/* Titre du projet */}
             <div className="mb-4">
               <FormField
                 control={form.control}
@@ -136,11 +140,11 @@ export default function CreateProjectForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Project title
+                      Titre du projet
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Website Redesign"
+                        placeholder="Refonte du site web"
                         className="!h-[48px]"
                         {...field}
                       />
@@ -150,6 +154,8 @@ export default function CreateProjectForm({
                 )}
               />
             </div>
+
+            {/* Description du projet */}
             <div className="mb-4">
               <FormField
                 control={form.control}
@@ -157,15 +163,15 @@ export default function CreateProjectForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Project description
+                      Description du projet
                       <span className="text-xs font-extralight ml-2">
-                        Optional
+                        (Optionnel)
                       </span>
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         rows={4}
-                        placeholder="Projects description"
+                        placeholder="Décrivez le projet ici..."
                         {...field}
                       />
                     </FormControl>
@@ -175,13 +181,14 @@ export default function CreateProjectForm({
               />
             </div>
 
+            {/* Bouton de création */}
             <Button
               disabled={isPending}
-              className="flex place-self-end  h-[40px] text-white font-semibold"
+              className="flex place-self-end h-[40px] text-white font-semibold"
               type="submit"
             >
               {isPending && <Loader className="animate-spin" />}
-              Create
+              Créer le projet
             </Button>
           </form>
         </Form>

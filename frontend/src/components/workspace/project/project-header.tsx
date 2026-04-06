@@ -11,7 +11,6 @@ import { Permissions } from "@/constant";
 const ProjectHeader = () => {
   const param = useParams();
   const projectId = param.projectId as string;
-
   const workspaceId = useWorkspaceId();
 
   const { data, isPending, isError } = useQuery({
@@ -28,13 +27,14 @@ const ProjectHeader = () => {
 
   const project = data?.project;
 
-  // Fallback if no project data is found
+  // Fallback si aucune donnée de projet n'est trouvée
   const projectEmoji = project?.emoji || "📊";
-  const projectName = project?.name || "Untitled project";
+  const projectName = project?.name || "Projet sans titre";
 
   const renderContent = () => {
-    if (isPending) return <span>Loading...</span>;
-    if (isError) return <span>Error occured</span>;
+    if (isPending) return <span>Chargement...</span>;
+    if (isError) return <span>Une erreur est survenue</span>;
+
     return (
       <>
         <span>{projectEmoji}</span>
@@ -42,6 +42,7 @@ const ProjectHeader = () => {
       </>
     );
   };
+
   return (
     <div className="flex items-center justify-between space-y-2">
       <div className="flex items-center gap-2">
@@ -52,6 +53,7 @@ const ProjectHeader = () => {
           <EditProjectDialog project={project} />
         </PermissionsGuard>
       </div>
+
       <CreateTaskDialog projectId={projectId} />
     </div>
   );

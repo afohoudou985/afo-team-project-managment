@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Check, ChevronDown, Loader, Plus } from "lucide-react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +30,6 @@ type WorkspaceType = {
 export function WorkspaceSwitcher() {
   const navigate = useNavigate();
   const { isMobile } = useSidebar();
-
   const { onOpen } = useCreateWorkspaceDialog();
   const workspaceId = useWorkspaceId();
 
@@ -67,7 +65,7 @@ export function WorkspaceSwitcher() {
   return (
     <>
       <SidebarGroupLabel className="w-full justify-between pr-0">
-        <span>Workspaces</span>
+        <span>Espaces de travail</span>
         <button
           onClick={onOpen}
           className="flex size-5 items-center justify-center rounded-full border"
@@ -75,6 +73,7 @@ export function WorkspaceSwitcher() {
           <Plus className="size-3.5" />
         </button>
       </SidebarGroupLabel>
+
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
@@ -92,19 +91,20 @@ export function WorkspaceSwitcher() {
                       <span className="truncate font-semibold">
                         {activeWorkspace?.name}
                       </span>
-                      <span className="truncate text-xs">Free</span>
+                      <span className="truncate text-xs">Gratuit</span>
                     </div>
                   </>
                 ) : (
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
-                      No Workspace selected
+                      Aucun espace de travail sélectionné
                     </span>
                   </div>
                 )}
                 <ChevronDown className="ml-auto" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent
               className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
               align="start"
@@ -112,9 +112,12 @@ export function WorkspaceSwitcher() {
               sideOffset={4}
             >
               <DropdownMenuLabel className="text-xs text-muted-foreground">
-                Workspaces
+                Espaces de travail
               </DropdownMenuLabel>
-              {isPending ? <Loader className=" w-5 h-5 animate-spin" /> : null}
+
+              {isPending ? (
+                <Loader className="w-5 h-5 animate-spin" />
+              ) : null}
 
               {workspaces?.map((workspace) => (
                 <DropdownMenuItem
@@ -126,7 +129,6 @@ export function WorkspaceSwitcher() {
                     {workspace?.name?.split(" ")?.[0]?.charAt(0)}
                   </div>
                   {workspace.name}
-
                   {workspace._id === workspaceId && (
                     <DropdownMenuShortcut className="tracking-normal !opacity-100">
                       <Check className="w-4 h-4" />
@@ -134,7 +136,9 @@ export function WorkspaceSwitcher() {
                   )}
                 </DropdownMenuItem>
               ))}
+
               <DropdownMenuSeparator />
+
               <DropdownMenuItem
                 className="gap-2 p-2 !cursor-pointer"
                 onClick={onOpen}
@@ -143,7 +147,7 @@ export function WorkspaceSwitcher() {
                   <Plus className="size-4" />
                 </div>
                 <div className="font-medium text-muted-foreground">
-                  Add workspace
+                  Ajouter un espace de travail
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>

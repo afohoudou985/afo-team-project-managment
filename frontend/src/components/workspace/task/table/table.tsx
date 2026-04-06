@@ -93,7 +93,7 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto w-full lg:w-auto">
-              Columns <ChevronDown />
+              Colonnes <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -163,7 +163,7 @@ export function DataTable<TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    Aucune donnée.
                   </TableCell>
                 </TableRow>
               )}

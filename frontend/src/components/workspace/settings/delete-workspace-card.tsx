@@ -10,7 +10,7 @@ import { deleteWorkspaceMutationFn } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-const DeleteWorkspaceCard = () => {
+const CarteSuppressionWorkspace = () => {
   const { workspace } = useAuthContext();
   const navigate = useNavigate();
 
@@ -34,13 +34,14 @@ const DeleteWorkspaceCard = () => {
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
       },
     });
   };
+
   return (
     <>
       <div className="w-full">
@@ -49,7 +50,7 @@ const DeleteWorkspaceCard = () => {
             className="text-[17px] tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1.5
            text-center sm:text-left"
           >
-            Delete Workspace
+            Supprimer l’espace de travail
           </h1>
         </div>
 
@@ -60,19 +61,20 @@ const DeleteWorkspaceCard = () => {
           <div className="flex flex-col items-start justify-between py-0">
             <div className="flex-1 mb-2">
               <p>
-                Deleting a workspace is a permanent action and cannot be undone.
-                Once you delete a workspace, all its associated data, including
-                projects, tasks, and member roles, will be permanently removed.
-                Please proceed with caution and ensure this action is
-                intentional.
+                La suppression d’un espace de travail est une action permanente
+                et irréversible. Une fois supprimé, toutes les données associées,
+                y compris les projets, les tâches et les rôles des membres,
+                seront définitivement supprimées. Veuillez agir avec prudence et
+                vous assurer que cette action est intentionnelle.
               </p>
             </div>
+
             <Button
               className="shrink-0 flex place-self-end h-[40px]"
               variant="destructive"
               onClick={onOpenDialog}
             >
-              Delete Workspace
+              Supprimer l’espace de travail
             </Button>
           </div>
         </PermissionsGuard>
@@ -83,13 +85,13 @@ const DeleteWorkspaceCard = () => {
         isLoading={isPending}
         onClose={onCloseDialog}
         onConfirm={handleConfirm}
-        title={`Delete  ${workspace?.name} Workspace`}
-        description={`Are you sure you want to delete? This action cannot be undone.`}
-        confirmText="Delete"
-        cancelText="Cancel"
+        title={`Supprimer l’espace de travail ${workspace?.name}`}
+        description={`Êtes-vous sûr de vouloir supprimer ? Cette action est irréversible.`}
+        confirmText="Supprimer"
+        cancelText="Annuler"
       />
     </>
   );
 };
 
-export default DeleteWorkspaceCard;
+export default CarteSuppressionWorkspace;

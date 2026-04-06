@@ -1,5 +1,4 @@
 "use client";
-
 import {
   LucideIcon,
   Settings,
@@ -26,43 +25,41 @@ type ItemType = {
 
 export function NavMain() {
   const { hasPermission } = useAuthContext();
-
   const canManageSettings = hasPermission(
     Permissions.MANAGE_WORKSPACE_SETTINGS
   );
 
   const workspaceId = useWorkspaceId();
   const location = useLocation();
-
   const pathname = location.pathname;
 
   const items: ItemType[] = [
     {
-      title: "Dashboard",
+      title: "Tableau de bord",
       url: `/workspace/${workspaceId}`,
       icon: LayoutDashboard,
     },
     {
-      title: "Tasks",
+      title: "Tâches",
       url: `/workspace/${workspaceId}/tasks`,
       icon: CheckCircle,
     },
     {
-      title: "Members",
+      title: "Membres",
       url: `/workspace/${workspaceId}/members`,
       icon: Users,
     },
-
     ...(canManageSettings
       ? [
           {
-            title: "Settings",
+            title: "Paramètres",
             url: `/workspace/${workspaceId}/settings`,
             icon: Settings,
           },
         ]
       : []),
   ];
+
   return (
     <SidebarGroup>
       <SidebarMenu>

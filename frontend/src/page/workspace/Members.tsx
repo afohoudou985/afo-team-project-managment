@@ -12,11 +12,12 @@ export default function Members() {
         <div className="w-full max-w-3xl mx-auto pt-3">
           <div>
             <h2 className="text-lg leading-[30px] font-semibold mb-1">
-              Workspace members
+              Membres de l’espace de travail
             </h2>
             <p className="text-sm text-muted-foreground">
-              Workspace members can view and join all Workspace project, tasks
-              and create new task in the Workspace.
+              Les membres de l’espace de travail peuvent consulter et rejoindre
+              tous les projets et tâches de l’espace de travail, ainsi que créer
+              de nouvelles tâches dans l’espace de travail.
             </p>
           </div>
           <Separator className="my-4" />

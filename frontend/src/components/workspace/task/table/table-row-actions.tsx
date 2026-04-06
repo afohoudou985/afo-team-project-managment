@@ -17,7 +17,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useWorkspaceId from "@/hooks/use-workspace-id";
 import { deleteTaskMutationFn } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
-import EditTaskDialog from "../edit-task-dialog"; // Import the Edit Dialog
+import EditTaskDialog from "../edit-task-dialog";
 
 interface DataTableRowActionsProps {
   row: Row<TaskType>;
@@ -25,7 +25,7 @@ interface DataTableRowActionsProps {
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const [openDeleteDialog, setOpenDialog] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false); // State for edit dialog
+  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   const queryClient = useQueryClient();
   const workspaceId = useWorkspaceId();
@@ -43,12 +43,22 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
       { workspaceId, taskId },
       {
         onSuccess: (data) => {
-          queryClient.invalidateQueries({ queryKey: ["all-tasks", workspaceId] });
-          toast({ title: "Success", description: data.message, variant: "success" });
+          queryClient.invalidateQueries({
+            queryKey: ["all-tasks", workspaceId],
+          });
+          toast({
+            title: "Succès",
+            description: data.message,
+            variant: "success",
+          });
           setTimeout(() => setOpenDialog(false), 100);
         },
         onError: (error) => {
-          toast({ title: "Error", description: error.message, variant: "destructive" });
+          toast({
+            title: "Erreur",
+            description: error.message,
+            variant: "destructive",
+          });
         },
       }
     );
@@ -58,42 +68,55 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+          <Button
+            variant="ghost"
+            className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+          >
             <MoreHorizontal />
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">Ouvrir le menu</span>
           </Button>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent align="end" className="w-[160px]">
-          {/* Edit Task Option */}
-          <DropdownMenuItem className="cursor-pointer" onClick={() => setOpenEditDialog(true)}>
-            <Pencil className="w-4 h-4 mr-2" /> Edit Task
+          {/* Option Modifier la tâche */}
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => setOpenEditDialog(true)}
+          >
+            <Pencil className="w-4 h-4 mr-2" />
+            Modifier la tâche
           </DropdownMenuItem>
+
           <DropdownMenuSeparator />
 
-          {/* Delete Task Option */}
+          {/* Option Supprimer la tâche */}
           <DropdownMenuItem
             className="!text-destructive cursor-pointer"
             onClick={() => setOpenDialog(true)}
           >
-            Delete Task
+            Supprimer la tâche
             <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Edit Task Dialog */}
-      <EditTaskDialog task={task} isOpen={openEditDialog} onClose={() => setOpenEditDialog(false)} />
+      {/* Dialogue de modification */}
+      <EditTaskDialog
+        task={task}
+        isOpen={openEditDialog}
+        onClose={() => setOpenEditDialog(false)}
+      />
 
-      {/* Delete Task Confirmation Dialog */}
+      {/* Dialogue de confirmation de suppression */}
       <ConfirmDialog
         isOpen={openDeleteDialog}
         isLoading={isPending}
         onClose={() => setOpenDialog(false)}
         onConfirm={handleConfirm}
-        title="Delete Task"
-        description={`Are you sure you want to delete ${taskCode}?`}
-        confirmText="Delete"
-        cancelText="Cancel"
+        title="Supprimer la tâche"
+        description={`Êtes-vous sûr de vouloir supprimer ${taskCode} ?`}
+        confirmText="Supprimer"
+        cancelText="Annuler"
       />
     </>
   );

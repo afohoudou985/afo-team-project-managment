@@ -34,7 +34,7 @@ export default function CreateWorkspaceForm({
 
   const formSchema = z.object({
     name: z.string().trim().min(1, {
-      message: "Workspace name is required",
+      message: "Le nom de l’espace de travail est requis",
     }),
     description: z.string().trim(),
   });
@@ -61,7 +61,7 @@ export default function CreateWorkspaceForm({
       },
       onError: (error) => {
         toast({
-          title: "Error",
+          title: "Erreur",
           description: error.message,
           variant: "destructive",
         });
@@ -77,11 +77,10 @@ export default function CreateWorkspaceForm({
             className="text-2xl tracking-[-0.16px] dark:text-[#fcfdffef] font-semibold mb-1.5
            text-center sm:text-left"
           >
-            Let's build a Workspace
+            Construisons un espace de travail
           </h1>
           <p className="text-muted-foreground text-lg leading-tight">
-            Boost your productivity by making it easier for everyone to access
-            projects in one location.
+            Boostez votre productivité en facilitant l’accès de tous aux projets en un seul endroit.
           </p>
         </div>
         <Form {...form}>
@@ -93,7 +92,7 @@ export default function CreateWorkspaceForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Workspace name
+                      Nom de l’espace de travail
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -103,7 +102,7 @@ export default function CreateWorkspaceForm({
                       />
                     </FormControl>
                     <FormDescription>
-                      This is the name of your company, team or organization.
+                      C’est le nom de votre entreprise, équipe ou organisation.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -117,21 +116,20 @@ export default function CreateWorkspaceForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="dark:text-[#f1f7feb5] text-sm">
-                      Workspace description
+                      Description de l’espace de travail
                       <span className="text-xs font-extralight ml-2">
-                        Optional
+                        Facultatif
                       </span>
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         rows={6}
-                        placeholder="Our team organizes marketing projects and tasks here."
+                        placeholder="Notre équipe organise ici les projets et tâches marketing."
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      Get your members on board with a few words about your
-                      Workspace.
+                      Aidez vos membres à embarquer avec quelques mots sur votre espace de travail.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -145,7 +143,7 @@ export default function CreateWorkspaceForm({
               type="submit"
             >
               {isPending && <Loader className="animate-spin" />}
-              Create Workspace
+              Créer un espace de travail
             </Button>
           </form>
         </Form>
